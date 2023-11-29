@@ -1,4 +1,4 @@
-# Python
+# :vomiting_face: :man_technologist: Challenges
 
-Learn python programming language. In this repository I gathered my mini projects
-Implemented by python. These projects helped my to learn python.
+In this repository I gathered all the programming problems & challenges that I solved.
+I worked on these challenges to keep my mind fresh when it comes to solving a problem.
