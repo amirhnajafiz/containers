@@ -20,18 +20,50 @@ RIGHT = {
 }
 
 
+class Track(object):
+    def __init__(self) -> None:
+        self.path = []
+    
+    def add(self, value: str) -> None:
+        self.path.append(value)
+        
+    def accumulate(self) -> list:
+        output = []
+        current = None
+        count = 0
+        
+        for index, item in enumerate(self.path):
+            if current == item:
+                count += 1
+            else:
+                if current is not None:
+                    output.append((current, count))
+                current = item
+                count = 1
+            
+            if index == len(self.path) - 1:
+                output.append((current, count))
+        
+        return output
+
+
 # our state machine
 class Machine(object):
-    def __init__(self, n: int) -> None:
+    def __init__(self, n: int, targets: tuple) -> None:
         self.limit = n
-        self.matrix = [[0 for i in range(n)] for j in range(n)]
+        self.matrix = [[0 for _ in range(n)] for _ in range(n)]
         self.direction = RIGHT
         self.value = 1
         self.x = n-1
         self.y = 0
+        self.start_target, self.stop_target = targets
+        self.storage = Track()
+        
+    def shape(self) -> list:
+        return self.matrix
         
     def output(self) -> list:
-        return self.matrix
+        return self.storage.accumulate()
     
     def rules(self, x, y) -> bool:
         return x == self.limit or x == -1 or y == self.limit or y == -1 or self.matrix[x][y] != 0
@@ -52,7 +84,12 @@ class Machine(object):
     
     def start(self) -> None:
         limit = self.limit**2
+        flag = False
+        
         while self.value <= limit:
+            if self.value == self.start_target:
+                flag = True
+            
             self.matrix[self.x][self.y] = self.value
             self.value += 1
             
@@ -61,12 +98,24 @@ class Machine(object):
                 self.direction = self.change(self.direction)
             
             self.x, self.y = self.direction["callback"](self.x, self.y)
+            
+            if flag == True:
+                self.storage.add(self.direction["value"])
+            
+            if self.value == self.stop_target:
+                flag = False
 
 
 if __name__ == "__main__":
-    m = Machine(int(input("Enter (N): ")))
+    n0 = int(input("Enter (N): "))
+    t1 = int(input("Enter 1st target: "))
+    t2 = int(input("Enter 2nd target: "))
+    
+    m = Machine(n0, (t1, t2))
     m.start()
     
-    output = m.output()
-    for row in output:
+    for row in m.shape():
         print(row)
+    
+    output = m.output()
+    print(', '.join([ f'({a}, {b})' for a, b in output ]))
