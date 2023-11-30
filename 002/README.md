@@ -1,9 +1,7 @@
 # Question 002
 
-Given a number as ```N```. We need to create a __2D__ array that is like
-a snail shell maze.
-
-For example, if $N = 5$ then the output will be like this:
+Given a number as ```N``` and two target places in a __2D__ array that is like
+a snail shell maze. For example, if $N = 5$ then the output will be like this:
 
 $$
 \begin{array}{cc}
@@ -14,6 +12,10 @@ $$
   1 & 2 & 3 & 4 & 5
 \end{array}
 $$
+
+We need to find the moves that should be taken to go from first target to second one.
+For example in above matrix, for reaching house number 9 from house number 4, we
+need to go one right and four ups.
 
 ## solution
 
@@ -39,4 +41,5 @@ Now we are going to set action functions for each of our directions.
 - ```DOWN``` : $(x_i, y_i) \to (x_i + 1, y_i)$
 
 After that we are going to start from $(N-1,0)$ ( as $(x_i, y_i)$ ) house with initial ```RIGHT```
-direction.
+direction. If we hit one of the first target we are going to store our moves in a stack until
+we reach the second target.
