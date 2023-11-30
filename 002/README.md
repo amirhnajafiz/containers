@@ -38,5 +38,5 @@ Now we are going to set action functions for each of our directions.
 - ```LEFT``` : $(x_i, y_i) \to (x_i, y_i - 1)$
 - ```DOWN``` : $(x_i, y_i) \to (x_i + 1, y_i)$
 
-After that we are going to start from $(N-1,0)$ (as $(x_i, y_i)$) house with initial ```RIGHT```
+After that we are going to start from $(N-1,0)$ ( as $(x_i, y_i)$ ) house with initial ```RIGHT```
 direction.
