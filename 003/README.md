@@ -17,7 +17,7 @@ $$
 degree = atan2(y,x)
 $$
 
-Now we are going to set a new factor for each of our entities:
+Now we are going to set a new factor for each of our entities (if _degree_ value is 0 then we round it to 1):
 
 $$
 factor = radius * degree^2
