@@ -41,5 +41,5 @@ Now we are going to set action functions for each of our directions.
 - ```DOWN``` : $(x_i, y_i) \to (x_i + 1, y_i)$
 
 After that we are going to start from $(N-1,0)$ ( as $(x_i, y_i)$ ) house with initial ```RIGHT```
-direction. If we hit one of the first target we are going to store our moves in a stack until
-we reach the second target.
+direction. Whenever we hit tthe first target, we are going to store our moves in a stack until
+we reach to the second target.
