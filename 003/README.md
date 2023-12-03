@@ -20,7 +20,7 @@ $$
 Now we are going to set a new factor for each of our entities (if _degree_ value is 0 then we round it to 1):
 
 $$
-factor = radius * degree^2
+factor = radius * \sqrt{degree}
 $$
 
 Finally, every time that we set a new source, we can sort our list based on the subtraction of these factors.
