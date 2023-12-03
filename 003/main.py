@@ -42,8 +42,6 @@ if __name__ == "__main__":
   # convert input to polar
   pc = convert_to_polar([(coordinates[0], coordinates[1])])[0]
   
-  print(p, pc)
-  
   # calculate items
   items = []
   
