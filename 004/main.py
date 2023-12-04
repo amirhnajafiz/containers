@@ -6,51 +6,52 @@ matrix = [
 
 
 # constant variables
-N = 3
-M = 6
+N = len(matrix)
+M = len(matrix[0])
 LIMIT = N+M
 
 
-row = 0
-col = 0
-stack = []
+if __name__ == "__main__":
+  row = 0
+  col = 0
+  stack = []
 
 
-while row < N and col < M:
-  current = matrix[row][col]
-  flag = False
-  
-  for item in stack:
-    if item == current:
-      flag = True
-      break
-
-  if flag:
-    index = row+1
-    while index < N:
-      pos = matrix[index][col]
-      flag = True
-      for item in stack:
-        if item == pos:
-          flag = False
-          break
-
-      if flag:
-        tmp = matrix[row][col]
-        matrix[row][col] = matrix[index][col]
-        matrix[index][col] = tmp
+  while row < N and col < M:
+    current = matrix[row][col]
+    flag = False
+    
+    for item in stack:
+      if item == current:
+        flag = True
         break
 
-    index += 1
-  
-  stack.append(matrix[row][col])
-  
-  col += 1
-  
-  if col == M:
-    stack = []
-    row += 1
-    col = 0
+    if flag:
+      index = row+1
+      while index < N:
+        pos = matrix[index][col]
+        flag = True
+        for item in stack:
+          if item == pos:
+            flag = False
+            break
+
+        if flag:
+          tmp = matrix[row][col]
+          matrix[row][col] = matrix[index][col]
+          matrix[index][col] = tmp
+          break
+
+      index += 1
+    
+    stack.append(matrix[row][col])
+    
+    col += 1
+    
+    if col == M:
+      stack = []
+      row += 1
+      col = 0
 
 
-print(matrix)
+  print(matrix)
