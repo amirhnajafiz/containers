@@ -1,18 +1,22 @@
 matrix = [
   [1, 1, 4, 3, 6, 6],
-  [2, 2, 3, 4, 5, 5]
+  [2, 2, 3, 4, 6, 5],
+  [1, 2, 3, 4, 5, 5]
 ]
 
+
 # constant variables
-N = 2
+N = 3
 M = 6
-LIMIT = N+M+1
+LIMIT = N+M
+
 
 row = 0
 col = 0
 stack = []
 
-while row + col < LIMIT:
+
+while row < N and col < M:
   current = matrix[row][col]
   flag = False
   
@@ -39,9 +43,11 @@ while row + col < LIMIT:
 
     index += 1
   
-  stack.push(matrix[row][col])
+  stack.append(matrix[row][col])
   
-  if col == N:
+  col += 1
+  
+  if col == M:
     stack = []
     row += 1
     col = 0
