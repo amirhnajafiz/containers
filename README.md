@@ -1,4 +1,4 @@
-# :man_technologist: Challenges
+# :man_technologist: Questions
 
 In this repository I gathered all the programming problems & challenges that I solved
 during interviews, online contests, etc.
