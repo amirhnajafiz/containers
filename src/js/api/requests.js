@@ -22,15 +22,24 @@ async function repositories() {
                 return list;
             })
             .catch((e) => {
-                console.log(e);
+                console.error(e);
 
                 return [];
             })
     }
 }
 
-async function readme(username) {
+async function readme() {
+    return (username, repository, branch) => {
+        fetch(`https://raw.githubusercontent.com/${username}/${repository}/${branch}/README.md`)
+            .then((response) => response.text())
+            .then((date) => date)
+            .catch((e) => {
+                console.error(e);
 
+                return "";
+            })
+    }
 }
 
 export const api = {
