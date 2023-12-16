@@ -18,5 +18,8 @@
     "css"
   ],
   "author": "najafizadeh21",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "showdown": "^2.1.0"
+  }
 }

@@ -8,8 +8,8 @@ import getSlideComponent from "./components/slide.js";
 // variables
 const user = "amirhnajafiz-learning";
 
+// logic
 async function main() {
-    // logic
     const repos = await api.pull(user);
     const wrapper = document.createElement("div");
 
