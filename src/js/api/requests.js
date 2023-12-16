@@ -1,4 +1,5 @@
 // address: https://api.github.com/users/amirhnajafiz-learning/repos
+// sub address: https://raw.githubusercontent.com/amirhnajafiz-learning/ansible/main/README.md
 // helper func: https://stackoverflow.com/questions/35442329/visualizing-readme-md-files-in-my-website
 
 async function repositories() {
@@ -12,7 +13,9 @@ async function repositories() {
                     list.push({
                         "id": el['id'],
                         "name": el['name'],
-                        "description": el['description']
+                        "description": el['description'],
+                        "branch": el['default_branch'],
+                        "topics": el['topics']
                     });
                 });
 
@@ -26,7 +29,7 @@ async function repositories() {
     }
 }
 
-async function readme() {
+async function readme(username) {
 
 }
 
