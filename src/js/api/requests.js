@@ -2,12 +2,12 @@
 // sub address: https://raw.githubusercontent.com/amirhnajafiz-learning/ansible/main/README.md
 // helper func: https://stackoverflow.com/questions/35442329/visualizing-readme-md-files-in-my-website
 
-async function repositories() {
-    return (username) => {
-        fetch(`https://api.github.com/users/${username}/repos`)
+function repositories() {
+    return async (username) => {
+        return fetch(`https://api.github.com/users/${username}/repos`)
             .then((response) => response.json())
             .then((data) => {
-                list = [];
+                let list = [];
 
                 data.forEach(el => {
                     list.push({
@@ -29,9 +29,9 @@ async function repositories() {
     }
 }
 
-async function readme() {
-    return (username, repository, branch) => {
-        fetch(`https://raw.githubusercontent.com/${username}/${repository}/${branch}/README.md`)
+function readme() {
+    return async (username, repository, branch) => {
+        return fetch(`https://raw.githubusercontent.com/${username}/${repository}/${branch}/README.md`)
             .then((response) => response.text())
             .then((date) => date)
             .catch((e) => {

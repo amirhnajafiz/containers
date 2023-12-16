@@ -8,16 +8,22 @@ import getSlideComponent from "./components/slide.js";
 // variables
 const user = "amirhnajafiz-learning";
 
-// logic
-const repos = await api.pull(user);
-const wrapper = document.createElement("div");
+async function main() {
+    // logic
+    const repos = await api.pull(user);
+    const wrapper = document.createElement("div");
 
-repos.forEach(repo => {
-    let txt = api.read(user, repo['name'], repo['branch']);
-    let slide = editor(getSlideComponent(), txt);
+    console.log(repos);
 
-    wrapper.appendChild(slide);
-});
+    repos.forEach(repo => {
+        let txt = api.read(user, repo['name'], repo['branch']);
+        let slide = editor(getSlideComponent(), txt);
 
-// mount component to main app
-document.getElementById("app").innerHTML = wrapper;
+        wrapper.appendChild(slide);
+    });
+
+    // mount component to main app
+    document.getElementById("app").innerHTML = wrapper;
+}
+
+await main();
