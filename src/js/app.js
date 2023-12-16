@@ -20,6 +20,7 @@ async function main() {
         let slide = editor(getSlideComponent(), txt);
 
         wrapper.appendChild(slide);
+        wrapper.appendChild(document.createElement("hr"));
     });
 
     // mount component to main app
