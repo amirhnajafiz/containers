@@ -1,5 +1,5 @@
 function editor(element, input) {
-    element.innerHTML = markdown.toHTML(input);
+    element.innerHTML = marked.parse(input);
 
     return element
 }

@@ -15,15 +15,15 @@ async function main() {
 
     console.log(repos);
 
-    repos.forEach(repo => {
-        let txt = api.read(user, repo['name'], repo['branch']);
+    repos.forEach(async repo => {
+        let txt = await api.read(user, repo['name'], repo['branch']);
         let slide = editor(getSlideComponent(), txt);
 
         wrapper.appendChild(slide);
     });
 
     // mount component to main app
-    document.getElementById("app").innerHTML = wrapper;
+    document.getElementById("app").appendChild(wrapper);
 }
 
 await main();
