@@ -15,5 +15,6 @@ func EnableCgroup(cgroups string, memory string) {
 	pids := filepath.Join(cgroups, "child")
 
 	conditions.Must(os.WriteFile(filepath.Join(pids, "memory.max"), []byte(memory), enums.PermGroupAll))
+	conditions.Must(os.WriteFile(filepath.Join(pids, "notify_on_release"), []byte("1"), enums.PermGroupAll))
 	conditions.Must(os.WriteFile(filepath.Join(pids, "cgroup.proc"), []byte(strconv.Itoa(os.Getpid())), enums.PermGroupAll))
 }
