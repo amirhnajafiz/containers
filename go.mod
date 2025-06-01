@@ -1,3 +1,3 @@
-module github.com/amirhnajafiz-learning/containers
+module github.com/amirhnajafiz/containers
 
-go 1.22.0
+go 1.23.0
