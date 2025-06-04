@@ -11,9 +11,7 @@ import (
 // Parent starts a new child process in a new namespace with the specified arguments.
 func Parent() error {
 	cmd := setContainerNamespace(exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...))
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	cmd = setContainerSTD(cmd)
 
 	if err := cmd.Run(); err != nil {
 		return err
@@ -30,9 +28,7 @@ func Child() error {
 	}
 
 	cmd := exec.Command(os.Args[2], os.Args[3:]...)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	cmd = setContainerSTD(cmd)
 
 	if err := cmd.Run(); err != nil {
 		return err
