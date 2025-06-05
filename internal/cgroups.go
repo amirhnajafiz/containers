@@ -16,20 +16,20 @@ func createCgroup(containerID string, memoryLimitMB int, cpuShares int) error {
 	memoryPath := filepath.Join(cgroupBase, "memory", containerID)
 	cpuPath := filepath.Join(cgroupBase, "cpu", containerID)
 
-	// Create memory cgroup
+	// create memory cgroup
 	if err := os.MkdirAll(memoryPath, 0755); err != nil {
-		return fmt.Errorf("create memory cgroup: %w", err)
+		return fmt.Errorf("failed to create memory cgroup: %w", err)
 	}
 	if err := os.WriteFile(filepath.Join(memoryPath, "memory.limit_in_bytes"), []byte(strconv.Itoa(memoryLimitMB*1024*1024)), 0644); err != nil {
-		return fmt.Errorf("set memory limit: %w", err)
+		return fmt.Errorf("failed to set memory limit: %w", err)
 	}
 
-	// Create CPU cgroup
+	// create CPU cgroup
 	if err := os.MkdirAll(cpuPath, 0755); err != nil {
-		return fmt.Errorf("create cpu cgroup: %w", err)
+		return fmt.Errorf("failed to create cpu cgroup: %w", err)
 	}
 	if err := os.WriteFile(filepath.Join(cpuPath, "cpu.shares"), []byte(strconv.Itoa(cpuShares)), 0644); err != nil {
-		return fmt.Errorf("set cpu shares: %w", err)
+		return fmt.Errorf("failed to set cpu shares: %w", err)
 	}
 
 	return nil
@@ -43,11 +43,12 @@ func addPidToCgroup(containerID string, pid int) error {
 
 	pidStr := []byte(strconv.Itoa(pid))
 
+	// add the pid to memory and cpu cgroups
 	if err := os.WriteFile(memoryTasks, pidStr, 0644); err != nil {
-		return fmt.Errorf("add pid to memory cgroup: %w", err)
+		return fmt.Errorf("failed to add pid to memory cgroup: %w", err)
 	}
 	if err := os.WriteFile(cpuTasks, pidStr, 0644); err != nil {
-		return fmt.Errorf("add pid to cpu cgroup: %w", err)
+		return fmt.Errorf("failed to add pid to cpu cgroup: %w", err)
 	}
 
 	return nil
@@ -59,11 +60,12 @@ func removeCgroup(containerID string) error {
 	memoryPath := filepath.Join(cgroupBase, "memory", containerID)
 	cpuPath := filepath.Join(cgroupBase, "cpu", containerID)
 
+	// remove memory and cpu cgroups
 	if err := os.RemoveAll(memoryPath); err != nil {
-		return fmt.Errorf("remove memory cgroup: %w", err)
+		return fmt.Errorf("failed to remove memory cgroup: %w", err)
 	}
 	if err := os.RemoveAll(cpuPath); err != nil {
-		return fmt.Errorf("remove cpu cgroup: %w", err)
+		return fmt.Errorf("failed to remove cpu cgroup: %w", err)
 	}
 	return nil
 }
