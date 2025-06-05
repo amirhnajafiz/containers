@@ -6,11 +6,13 @@ package internal
 import (
 	"os"
 	"os/exec"
+
+	"github.com/google/uuid"
 )
 
 // Parent starts a new child process in a new namespace with the specified arguments.
 func Parent() error {
-	containerID := "mycontainer"
+	containerID := uuid.New().String()
 	memoryLimitMB := 128
 	cpuShares := 512
 
