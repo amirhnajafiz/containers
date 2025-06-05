@@ -16,10 +16,11 @@ func main() {
 	case "child":
 		must(internal.Child())
 	default:
-		panic("wat should I do")
+		panic("invalid command, expected 'run' or 'child'")
 	}
 }
 
+// must is a helper function that panics if the error is not nil.
 func must(err error) {
 	if err != nil {
 		panic(err)

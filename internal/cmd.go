@@ -12,31 +12,38 @@ import (
 
 // Parent starts a new child process in a new namespace with the specified arguments.
 func Parent() error {
+	// create a unique container ID
 	containerID := uuid.New().String()
+
+	// set up cgroup limits for the container
 	memoryLimitMB := 128
 	cpuShares := 512
 
+	// create cgroup for the container
 	if err := createCgroup(containerID, memoryLimitMB, cpuShares); err != nil {
 		return err
 	}
 
+	// set up the new namespace and execute the child process
 	cmd := setContainerNamespace(exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...))
 	cmd = setContainerSTD(cmd)
 
+	// start the command in the new namespace
 	if err := cmd.Start(); err != nil {
 		return err
 	}
 
-	// Add child PID to cgroup
+	// add child PID to cgroup
 	if err := addPidToCgroup(containerID, cmd.Process.Pid); err != nil {
 		return err
 	}
 
+	// wait for the command to finish
 	if err := cmd.Wait(); err != nil {
 		return err
 	}
 
-	// Clean up cgroup after process exits
+	// clean up cgroup after process exits
 	if err := removeCgroup(containerID); err != nil {
 		return err
 	}
@@ -44,16 +51,18 @@ func Parent() error {
 	return nil
 }
 
-// Child performs the pivot root operation and executes the specified command in the new namespace.
-// It mounts the root filesystem, creates an old root directory, and changes the current working directory.
+// Child executes the command specified in the arguments after setting up the container filesystem.
 func Child() error {
+	// set up the container filesystem
 	if err := setContainerFilesystem(); err != nil {
 		return err
 	}
 
+	// execute the command passed as arguments
 	cmd := exec.Command(os.Args[2], os.Args[3:]...)
 	cmd = setContainerSTD(cmd)
 
+	// run the command in the new namespace
 	if err := cmd.Run(); err != nil {
 		return err
 	}
