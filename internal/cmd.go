@@ -14,6 +14,19 @@ import (
 func Parent() error {
 	// create a unique container ID
 	containerID := uuid.New().String()
+	defer func() {
+		// clean up the container network after the parent process exits
+		if err := removeContainerNetwork(containerID); err != nil {
+			// log the error but do not return it, as we are already in a deferred function
+			// fmt.Printf("Failed to remove container network: %v\n", err)
+		}
+
+		// clean up cgroup after process exits
+		if err := removeCgroup(containerID); err != nil {
+			// log the error but do not return it, as we are already in a deferred function
+			// fmt.Printf("Failed to remove cgroup: %v\n", err)
+		}
+	}()
 
 	// set up cgroup limits for the container
 	memoryLimitMB := 128
@@ -38,13 +51,13 @@ func Parent() error {
 		return err
 	}
 
-	// wait for the command to finish
-	if err := cmd.Wait(); err != nil {
+	// create the container network
+	if err := setupContainerNetwork(containerID, cmd.Process.Pid, "10.0.0.2"); err != nil {
 		return err
 	}
 
-	// clean up cgroup after process exits
-	if err := removeCgroup(containerID); err != nil {
+	// wait for the command to finish
+	if err := cmd.Wait(); err != nil {
 		return err
 	}
 
