@@ -4,8 +4,12 @@
 package internal
 
 import (
+	"log"
 	"os"
 	"os/exec"
+	"strconv"
+
+	"github.com/amirhnajafiz/containers/pkg"
 
 	"github.com/google/uuid"
 )
@@ -28,9 +32,15 @@ func Parent() error {
 		}
 	}()
 
+	// read configuration settings
+	configs, err := pkg.ReadConfigs()
+	if err != nil {
+		log.Printf("Failed to read configurations: %v\n", err)
+	}
+
 	// set up cgroup limits for the container
-	memoryLimitMB := 128
-	cpuShares := 512
+	memoryLimitMB, _ := strconv.Atoi(configs["memory"])
+	cpuShares, _ := strconv.Atoi(configs["cpu"])
 
 	// create cgroup for the container
 	if err := createCgroup(containerID, memoryLimitMB, cpuShares); err != nil {
