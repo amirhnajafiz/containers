@@ -8,8 +8,9 @@ import (
 // defaultConfigs returns a map of default configurations for the container.
 func defaultConfigs() map[string]string {
 	return map[string]string{
-		"memory": "128",
-		"cpu":    "512",
+		"memory":  "128",
+		"cpu":     "512",
+		"workdir": "",
 	}
 }
 

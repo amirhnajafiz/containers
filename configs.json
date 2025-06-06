@@ -1,4 +1,5 @@
 {
     "memory": "128",
-    "cpu": 512
+    "cpu": "512",
+    "workdir": "/app"
 }

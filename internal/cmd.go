@@ -51,6 +51,9 @@ func Parent() error {
 	cmd := setContainerNamespace(exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...))
 	cmd = setContainerSTD(cmd)
 
+	// set the environment variables for the child process
+	cmd.Env = append(os.Environ(), "WORKDIR="+configs["workdir"])
+
 	// start the command in the new namespace
 	if err := cmd.Start(); err != nil {
 		return err
@@ -76,8 +79,11 @@ func Parent() error {
 
 // Child executes the command specified in the arguments after setting up the container filesystem.
 func Child() error {
+	// get workdir from ENV
+	workdir := os.Getenv("WORKDIR")
+
 	// set up the container filesystem
-	if err := setContainerFilesystem(""); err != nil {
+	if err := setContainerFilesystem(workdir); err != nil {
 		return err
 	}
 
