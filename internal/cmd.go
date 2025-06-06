@@ -77,7 +77,7 @@ func Parent() error {
 // Child executes the command specified in the arguments after setting up the container filesystem.
 func Child() error {
 	// set up the container filesystem
-	if err := setContainerFilesystem(); err != nil {
+	if err := setContainerFilesystem(""); err != nil {
 		return err
 	}
 
